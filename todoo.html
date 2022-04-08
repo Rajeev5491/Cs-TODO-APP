@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="todo.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- <script src="todo.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+   
+    <title>Todo App</title>
+</head>
+<body>
+  
+
+    <div class="background">
+        <div class="website">
+            <header class="head"> 
+                <nav class="navbar navbar-inverse">
+                    <div class="container-fluid">
+                      <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Hello Admin</a> 
+                      </div>
+                      <ul class="nav navbar-nav">
+                        
+                       
+                      </ul>
+                      <button class="btn btn-danger navbar-btn-in" onclick="window.location.href = 'index.html';">Log out</button>
+                      
+                    </div>
+                  </nav>
+            
+              </div>
+              
+                                  
+           
+
+
+              <div class="container">
+                <h1>To-Do list</h1>
+                
+                <form action="" id="todo">
+                </form>
+              </div>
+
+
+     
+        
+                 </div> 
+                    
+                </div>
+                <br />
+                <div id="error"></div>
+            
+     
+        
+
+                <script>
+                window.onload = function showtodo()
+{
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function(){
+    if(this.readyState==4 && this.status==200)
+    {
+        var Response = JSON.parse(this.responseText);
+        var checkid="";
+
+        for(var i=0; i<Response.length; i++)
+        {
+            const x = document.createElement("input");
+            x.setAttribute("type","checkbox");
+            x.setAttribute("value",Response[i].title);
+            x.setAttribute("id",Response[i].id);
+            checkid =Response[i].id;
+            x.setAttribute("onchange","init("+checkid+")");
+            document.getElementById("todo").appendChild(x);
+            const z = document.createElement("label");
+            z.innerHTML=`${Response[i].title}`;
+            document.getElementById("todo").appendChild(z);
+            const newline = document.createElement("br");
+            document.getElementById("todo").appendChild(newline);
+        }
+    }
+}
+xhttp.open("GET","https://jsonplaceholder.typicode.com/todos",true);
+xhttp.send();
+}
+var count = 0;
+var idArray=[];
+
+
+function verify(k)
+{
+    return new Promise(function(resolve,reject){
+        idArray.push(k);
+        console.log(k);
+        if(idArray.length>=5){
+            resolve();
+        }
+        else{
+            reject("not completed");
+        }
+    })    
+    
+}
+
+function displaymsg()
+{
+    setTimeout(function(){
+        alert("Congratulations!!! 5 Tasks have been Successfully Completed!");
+    }, 500);
+    
+}
+function init(k)
+{  
+   verify(k)
+   .then(displaymsg)
+   .catch(function(e){
+       console.log(e);
+   });
+    
+}
+    
+
+</script>
+
+
+
+
+
+      </body>
+      </html>
